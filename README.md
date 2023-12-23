@@ -1,5 +1,4 @@
-# Welcome to GitHub Desktop!
+# Curso de Python
 
-This is your README. READMEs are where you can communicate what your project is and how to use it.
+* Dentro do curso tem as **Aulas** e os **Exerciocios** aplicados no curso de Python do Curso em Vídeo
 
-Write your name on line 6, save it, and then head back to GitHub Desktop.
