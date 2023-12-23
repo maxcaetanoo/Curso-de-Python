@@ -1,0 +1,11 @@
+coisa = input('Digita qualquer coisa aí: ')
+
+print('Que coisa será essa coisa?')
+print()
+print('Essa coisa é do tipo: {}'.format(type(coisa)))
+print('Essa coisa é um texto? {}'.format(coisa.isalpha()))
+print('Essa coisa é um número? {}'.format(coisa.isnumeric()))
+print('Essa coisa deve ser então um alphanumérico? {}'.format(coisa.isalnum()))
+print('Essa coisa está em caixa alta? {}'.format(coisa.isupper()))
+print('Ou será que está em caixa baixa? {}'.format(coisa.islower()))
+print('Tá então deve ser capitalizada certo? {}'.format(coisa.istitle()))
