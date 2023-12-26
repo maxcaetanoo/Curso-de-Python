@@ -1,5 +1,5 @@
-'''Crie um módulo chamado moeda.py que tenha as funções incorporadas aumentar(), diminuir(), dobro() e metade().
-Faça também um programa que importe esse módulo e use algumas dessas funções.'''
+'''Adicione o módulo moeda.py criado nos desafios anteriores, uma função chamada resumo(),
+que mostre na tela algumas informações geradas pelas funções que já temos no módulo criado até aqui.'''
 from Exercicios.ex109 import moeda
 
 valor = str(input('Digite um valor em R$: ')).replace(',', '.').strip()
