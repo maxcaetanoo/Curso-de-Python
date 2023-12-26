@@ -20,5 +20,5 @@ def metade(n):
 
 def moeda(n, boll=False):
     if boll:
-        n = f'R$ {n:.2f}'
+        n = f'R$ {n:.2f}'.replace('.', ',')
         return n
