@@ -1,5 +1,5 @@
-'''Crie um módulo chamado moeda.py que tenha as funções incorporadas aumentar(), diminuir(), dobro() e metade().
-Faça também um programa que importe esse módulo e use algumas dessas funções.'''
+'''Crie um pacote chamado utilidadesCeV que tenha dois módulos internos chamados moeda e dado.
+Transfira todas as funções utilizadas nos desafios 107, 108 e 109 para o primeiro pacote e mantenha tudo funcionando.'''
 from Exercicios.ex110 import moeda
 
 valor = float(str(input('Digite um valor em R$: ')).strip().replace(',', '.'))
