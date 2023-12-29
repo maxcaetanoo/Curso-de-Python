@@ -18,7 +18,7 @@ def leiaInt(msg):
             continue
         except KeyboardInterrupt:
             print('\033[31mEntrada de dados interrompida pelo usuário.\033[m')
-            return 0
+            return 3
         else:
             return n
 
