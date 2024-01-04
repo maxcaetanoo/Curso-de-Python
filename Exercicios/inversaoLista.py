@@ -5,6 +5,6 @@ for i in range(len(x)//2):
     init = x[i]
     x[i] = x[fim]
     x[fim] = init
-    fim -= 1    
+    fim -= 1
 
 print(x)
