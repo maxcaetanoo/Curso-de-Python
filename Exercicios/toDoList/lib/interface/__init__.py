@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Exercicios.toDoList.lib import archive
 from Exercicios.toDoList.lib.classes import Tarefa
 
@@ -12,7 +14,7 @@ def menu(arq):
     from time import sleep
     title('Bem vindo ao To-Do List')
 
-    menus = ["Ver tarefas", "Criar nova tarefa", "Adiar tarefa", "Remover tarefa", "Sair do To-Do List"]
+    menus = ["Ver tarefas", "Criar nova tarefa", "Adiar tarefa", "Finalizar tarefa", "Sair do To-Do List"]
 
     while True:
         for i, v in enumerate(menus):
@@ -29,7 +31,7 @@ def menu(arq):
         elif select == 2:
             title(menus[select-1])
             sleep(1)
-            pass
+            register(arq)
         elif select == 3:
             title(menus[select-1])
             sleep(1)
@@ -42,3 +44,27 @@ def menu(arq):
             title('Encerrando To-Do List...')
             sleep(1)
             break
+
+
+def register(arq):
+    tarefa = Tarefa
+    tarefa.title = str(input('Digite o nome da tarefa: '))
+    try:
+        date = str(input('Digite o dia e mês da tarefa separados por /: ')).strip()
+        while True:
+            order = date.split('/')
+            if order[0].isnumeric() and order[1].isnumeric() and len(order[0]) < 3 and len(order[1]) < 3:
+                ordeDate = f'{order[0]}/{order[1]}/{datetime.now().year}'
+            else:
+                print(f'Formato {date} é um formato de data inválido, estamos cadastrando com o dia e mês atuais.')
+                ordeDate = f'{datetime.now().day}/{datetime.now().month}/{datetime.now().year}'
+            date = ordeDate
+            break
+    except:
+        print('houve um erro ao cadastrar a data, estamos cadastrando com o dia e mês atuais.')
+        date = f'{datetime.now().day}/{datetime.now().month}/{datetime.now().year}'
+    else:
+        tarefa.date = date
+    tarefa.check = False
+
+    archive.arqRegister(arq, tarefa)

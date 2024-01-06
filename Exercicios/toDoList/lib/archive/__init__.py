@@ -28,8 +28,10 @@ def arqRead(arq):
         for i in archive:
             tarefas = i.split(';')
             tarefas = tarefas[2].replace('\n', '')
-            print(f'{tarefas[0]:<10}| prazo{tarefas[1]:<10}| {"A finalizar" if tarefas[2] == 0 else "Finalizada"}')
+            print(tarefas[0])
+            print(f'{tarefas[0]:<10}| prazo:{tarefas[1]:<10}| {"A finalizar" if tarefas[2] == "0" else "Finalizada"}')
             sleep(1)
+    finally:
         archive.close()
 
 
@@ -40,9 +42,8 @@ def arqRegister(arq, val):
         print('Não foi possível cadastrar uma nova tarefa.')
     else:
         try:
-
-            archive.write(f'{val.name};{val.date};{1 if val.check else 0}\n')
+            archive.write(f'{val.title};{val.date};{"1" if val.check else "0"}\n')
         except:
-            print(f'Não foi possivel cadastrar a tarefa {val.name}')
+            print(f'Não foi possivel cadastrar a tarefa {val.title}')
         else:
-            print(f'A tarefa {val.name} foi cadastrada com sucesso!')
+            print(f'A tarefa {val.title} foi cadastrada com sucesso!')
