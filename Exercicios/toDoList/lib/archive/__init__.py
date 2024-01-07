@@ -1,4 +1,7 @@
-def arqExists(arq):
+from Exercicios.toDoList.lib import classes
+
+
+def arqExists(arq='list.txt'):
     try:
         archive = open(arq, 'rt')
         archive.close()
@@ -8,7 +11,7 @@ def arqExists(arq):
         return True
 
 
-def arqCreate(arq):
+def arqCreate(arq='list.txt'):
     try:
         archive = open(arq, 'wt+')
         archive.close()
@@ -18,32 +21,31 @@ def arqCreate(arq):
         print(f'Arquivo {arq} criado com sucesso!')
 
 
-def arqRead(arq):
-    from time import sleep
+def arqRead(arq='list.txt'):
+    tarefas = []
     try:
         archive = open(arq, 'rt')
     except:
         print('Não foi possível ver as tarefas, sentimos muito.')
     else:
-        for i in archive:
-            tarefas = i.split(';')
-            tarefas = tarefas[2].replace('\n', '')
-            print(tarefas[0])
-            print(f'{tarefas[0]:<10}| prazo:{tarefas[1]:<10}| {"A finalizar" if tarefas[2] == "0" else "Finalizada"}')
-            sleep(1)
-    finally:
+        for linha in archive:
+            dados = linha.split(';')
+            dados = dados[2].replace('\n', '')
+            for n, v in enumerate(dados):
+                print(f'{n} - {v}', end='')
+            tarefa = classes.Tarefa(dados[0], str(dados[1]), dados[2])
+            tarefas.append(tarefa)
         archive.close()
 
+    return tarefas
 
-def arqRegister(arq, val):
+
+def arqRegister(val, arq='list.txt'):
     try:
         archive = open(arq, 'wt')
     except:
-        print('Não foi possível cadastrar uma nova tarefa.')
+        print('Não foi possivel ler o arquivo.')
     else:
-        try:
-            archive.write(f'{val.title};{val.date};{"1" if val.check else "0"}\n')
-        except:
-            print(f'Não foi possivel cadastrar a tarefa {val.title}')
-        else:
-            print(f'A tarefa {val.title} foi cadastrada com sucesso!')
+        for l in val:
+            archive.write(f"{l.title};{l.date};{str(l.check)}\n")
+        archive.close()
