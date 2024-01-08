@@ -1,15 +1,13 @@
-class Carro:
-    def __init__(self, marca, modelo):
+class Carro:# Classe carro
+    def __init__(self, marca, modelo):# Como deve ser instanciado o objeto
         self.marca = marca
         self.modelo = modelo
 
-    def __str__(self):
+    def __str__(self):# Retorno do objeto em formato str()
         return f"{self.marca} {self.modelo}"
 
-# Função para cadastrar os carros
 
-
-def cadastrar_carros():
+def cadastrar_carros():# Função para cadastrar os carros
     quantidade = int(input("Quantos carros você deseja cadastrar? "))
     carros = []
 
@@ -21,10 +19,8 @@ def cadastrar_carros():
 
     return carros
 
-# Função para salvar os carros em um arquivo
 
-
-def salvar_carros_em_arquivo(carros):
+def salvar_carros_em_arquivo(carros):# Função para salvar os carros em um arquivo
     with open("carros.txt", "w") as arquivo:
         for carro in carros:
             arquivo.write(f"{carro.marca},{carro.modelo}\n")
