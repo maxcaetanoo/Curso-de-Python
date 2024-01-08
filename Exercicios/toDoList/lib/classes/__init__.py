@@ -8,4 +8,4 @@ class Tarefa:
         self.check = check
 
     def __str__(self):
-        return
+        return f'{self.title} {self.date} {self.check}'

@@ -25,26 +25,22 @@ def arqRead(arq='list.txt'):
     from time import sleep
     tarefas = []
     try:
-        archive = open(arq, 'rt')
+        with open(arq, 'rt') as archive:
+            for indice, linha in enumerate(archive):
+                dados = linha.split(';')
+                dados[2] = dados[2].replace('\n', '')
+                tarefa = Tarefa(dados[0], dados[1], dados[2])
+                tarefas.append(tarefa)
     except:
         print('Não foi possível ver as tarefas, sentimos muito.')
-    else:
-        for indice, linha in enumerate(archive):
-            dados = linha.split(';')
-            dados[2] = dados[2].replace('\n', '')
-            tarefa = Tarefa(dados[0], dados[1], dados[2])
-            tarefas.append(tarefa)
-        archive.close()
     finally:
         return tarefas
 
 
 def arqRegister(val, arq='list.txt'):
     try:
-        archive = open(arq, 'wt')
+        with open(arq, 'wt') as archive:
+            for l in val:
+                archive.write(f"{l.title};{l.date};{str(l.check)}\n")
     except:
         print('Não foi possivel ler o arquivo.')
-    else:
-        for l in val:
-            archive.write(f"{l.title};{l.date};{str(l.check)}\n")
-        archive.close()
