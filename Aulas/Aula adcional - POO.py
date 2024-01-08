@@ -25,10 +25,8 @@ def salvar_carros_em_arquivo(carros):# Função para salvar os carros em um arqu
         for carro in carros:
             arquivo.write(f"{carro.marca},{carro.modelo}\n")
 
-# Função para ler os carros do arquivo
 
-
-def ler_carros_do_arquivo():
+def ler_carros_do_arquivo():# Função para ler os carros do arquivo
     carros = []
     try:
         with open("carros.txt", "r") as arquivo:
@@ -40,10 +38,8 @@ def ler_carros_do_arquivo():
         pass
     return carros
 
-# Função para exibir os carros cadastrados
 
-
-def exibir_carros(carros):
+def exibir_carros(carros):# Função para exibir os carros cadastrados
     if not carros:
         print("Não há carros cadastrados.")
     else:
