@@ -1,6 +1,7 @@
-from Exercicios.toDoList.lib import interface, classes, archive
+from Exercicios.toDoList.lib.archive import arqExists, arqCreate
+from Exercicios.toDoList.lib.interface import menu
 
 arq = 'list.txt'
-if not archive.arqExists(arq):
-    archive.arqCreate(arq)
-interface.menu(arq)
+if not arqExists(arq):
+    arqCreate(arq)
+menu(arq)
