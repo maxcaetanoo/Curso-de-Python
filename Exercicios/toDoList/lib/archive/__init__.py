@@ -1,4 +1,4 @@
-from Exercicios.toDoList.lib import classes
+from Exercicios.toDoList.lib.classes import Tarefa
 
 
 def arqExists(arq='list.txt'):
@@ -22,22 +22,21 @@ def arqCreate(arq='list.txt'):
 
 
 def arqRead(arq='list.txt'):
+    from time import sleep
     tarefas = []
     try:
         archive = open(arq, 'rt')
     except:
         print('Não foi possível ver as tarefas, sentimos muito.')
     else:
-        for linha in archive:
+        for indice, linha in enumerate(archive):
             dados = linha.split(';')
-            dados = dados[2].replace('\n', '')
-            for n, v in enumerate(dados):
-                print(f'{n} - {v}', end='')
-            tarefa = classes.Tarefa(dados[0], str(dados[1]), dados[2])
+            dados[2] = dados[2].replace('\n', '')
+            tarefa = Tarefa(dados[0], dados[1], dados[2])
             tarefas.append(tarefa)
         archive.close()
-
-    return tarefas
+    finally:
+        return tarefas
 
 
 def arqRegister(val, arq='list.txt'):

@@ -5,9 +5,9 @@ from Exercicios.toDoList.lib.classes import Tarefa
 
 
 def title(t):
-    print('-' * 40)
+    print('=' * 52)
     print(f'\033[1;32m{t:^40}\033[m')
-    print('-' * 40, end='\n')
+    print('=' * 52, end='\n')
 
 
 def menu(arq='list.txt'):
@@ -20,15 +20,15 @@ def menu(arq='list.txt'):
         for i, v in enumerate(menus):
             print(f'\033[34m{i + 1:<2}\033[m- \033[34m{v:<10}\033[m')
 
-        print('-' * 40)
+        print('-' * 52)
         select = int(input('Digite o indice da opção desejada: '))
-        print('-' * 40, end='\n')
+        print('-' * 52, end='\n')
 
         if select == 1:
             title(menus[select - 1])
             sleep(1)
             reader = archive.arqRead(arq)
-            reading(reader)
+            read(reader)
         elif select == 2:
             title(menus[select - 1])
             sleep(1)
@@ -90,8 +90,13 @@ def register(arq='list.txt'):
     archive.arqRegister(registers, arq)
 
 
-def reading(l):
+def read(l):
     from time import sleep
-    for i in l:
-        print(f'{i[0]:<10}| prazo:{i[1]:^20}| {"A fazer" if i[2] == "0" else "Finalizada"}')
+
+    print(f'{"ID":>3} | {"TAREFA":<10}| {"PRAZO":^12} | {"SITUAÇÃO"}')
+    print('-' * 52)
+    for i, v in enumerate(l):
+        print(f'{i+1:>3}', end=' | ')
+        print(f'{v.title:<10}| {v.date:^12} | {"A fazer" if v == "0" else "Finalizada"}')
         sleep(1)
+    print('-' * 52)
