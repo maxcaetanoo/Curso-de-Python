@@ -17,18 +17,20 @@ def menu(arq='list.txt'):
     menus = ["Ver tarefas", "Criar nova tarefa", "Adiar tarefa", "Finalizar tarefa", "Sair do To-Do List"]
 
     while True:
-        print('-' * 52)
+        print('-=' * 26)
         for i, v in enumerate(menus):
             print(f'\033[34m{i + 1:<2}\033[m- \033[34m{v:<10}\033[m')
+        print('-=' * 26)
 
         print('-' * 52)
-        select = int(input('Digite o indice da opção desejada: '))
+        select = int(input(f'{"Digite o indice da opção desejada: ":^50}'))
         print('-' * 52, end='\n')
+
+        reader = archive.arqRead(arq)
 
         if select == 1:
             title(menus[select - 1])
             sleep(1)
-            reader = archive.arqRead(arq)
             read(reader)
         elif select == 2:
             title(menus[select - 1])
@@ -37,12 +39,11 @@ def menu(arq='list.txt'):
         elif select == 3:
             title(menus[select - 1])
             sleep(1)
-            reader = archive.arqRead(arq)
-            updateDate(reader, arq)
+            update(reader, select, arq)
         elif select == 4:
             title(menus[select - 1])
             sleep(1)
-            pass
+            update(reader, select, arq)
         elif select == 5:
             title('Encerrando To-Do List...')
             sleep(1)
@@ -53,8 +54,8 @@ def register(arq='list.txt'):
     tarefas = []
 
     while True:
-        title = str(input('Digite o nome da tarefa: '))
-        date = datesReg('Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
+        title = str(input('- Digite o nome da tarefa: '))
+        date = datesReg('- Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
         check = "0"
 
         tarefa = Tarefa(title, date, check)
@@ -109,25 +110,62 @@ def read(l):
     print('-' * 52)
 
 
-def updateDate(leitura, arq):
-    try:
+def update(leitura, opt, arq):
+    if opt == 3:
         read(leitura)
+        while True:
+            print('-' * 52)
+            dateUpdate = int(input(f'Digite o ID do valor que deseja adiar: '))
+            print('-' * 52)
+            if dateUpdate-1 not in range(0, len(leitura)):
+                print('Opção incorreta, por favor tente novamente.')
+            else:
+                break
 
-        update = int(input(f'Digite o ID do valor que deseja adiar: '))
-        print('Para adiar o prazo basta digitar o dia e o mês atualizados')
-        date = datesReg('Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
+        try:
+            print('-' * 52)
+            print('Para adiar o prazo basta digitar o dia e o mês atualizados')
+            date = datesReg('Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
 
-        dates = leitura[update - 1]
-        before = str(dates.date)
-        now = dates.date = date
+            updates = leitura[dateUpdate - 1]
+            before = str(updates.date)
+            now = updates.date = date
 
-        tarefa = Tarefa(dates.title, now, dates.check)
-    except:
-        print('Não foi possível editar a data!')
-    else:
-        registers = archive.arqRead(arq)
-        del registers[update-1]
-        registers.insert(update-1, tarefa)
+            tarefa = Tarefa(updates.title, now, updates.check)
+        except:
+            print('Não foi possível editar a data!')
+        else:
+            registers = archive.arqRead(arq)
+            del registers[dateUpdate-1]
+            registers.insert(dateUpdate-1, tarefa)
 
-        archive.arqRegister(registers, arq)
-        print(f'Tarefa adiada de {before} para {now} com sucesso!')
+            archive.arqRegister(registers, arq)
+            print(f'Tarefa adiada de {before} para {now} com sucesso!')
+            print('-' * 52)
+    if opt == 4:
+        read(leitura)
+        while True:
+            print('-' * 52)
+            statusUpdate = int(input(f'Digite o ID do valor que deseja finalizar: '))
+            print('-' * 52)
+            if statusUpdate-1 not in range(0, len(leitura)):
+                print('Opção incorreta, por favor tente novamente.')
+            else:
+                break
+
+        try:
+            updates = leitura[statusUpdate-1]
+            check = updates.check = "1"
+
+            tarefa = Tarefa(updates.title, updates.date, check)
+        except:
+            print(f'Não foi possivel finalizar a tarefa {statusUpdate}')
+        else:
+            registers = archive.arqRead(arq)
+            del registers[statusUpdate - 1]
+            registers.insert(statusUpdate - 1, tarefa)
+
+            archive.arqRegister(registers, arq)
+            print('-' * 52)
+            print(f'Tarefa {leitura[statusUpdate-1].title} finalizada com sucesso!')
+            print('-' * 52)
