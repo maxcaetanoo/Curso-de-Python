@@ -17,6 +17,7 @@ def menu(arq='list.txt'):
     menus = ["Ver tarefas", "Criar nova tarefa", "Adiar tarefa", "Finalizar tarefa", "Sair do To-Do List"]
 
     while True:
+        print('-' * 52)
         for i, v in enumerate(menus):
             print(f'\033[34m{i + 1:<2}\033[m- \033[34m{v:<10}\033[m')
 
@@ -36,7 +37,8 @@ def menu(arq='list.txt'):
         elif select == 3:
             title(menus[select - 1])
             sleep(1)
-            pass
+            reader = archive.arqRead(arq)
+            updateDate(reader, arq)
         elif select == 4:
             title(menus[select - 1])
             sleep(1)
@@ -52,25 +54,10 @@ def register(arq='list.txt'):
 
     while True:
         title = str(input('Digite o nome da tarefa: '))
-        try:
-            date = str(input('Digite o dia e mês da tarefa separados por /: ')).strip()
-            while True:
-                order = date.strip().split('/')
-                if order[0].isnumeric() and order[1].isnumeric() and len(order[0]) < 3 and len(order[1]) < 3:
-                    orderDate = f'{order[0]}-{order[1]}-{datetime.now().year}'
-                else:
-                    print(f'Formato {date} é um formato de data inválido, estamos cadastrando com o dia e mês atuais.')
-                    orderDate = f'{datetime.now().day}-{datetime.now().month}-{datetime.now().year}'
-                date = orderDate
-                break
-        except:
-            print('houve um erro ao cadastrar a data, estamos cadastrando com o dia e mês atuais.')
-            dates = f'{datetime.now().day}-{datetime.now().month}-{datetime.now().year}'
-        else:
-            dates = date
-        check = 0
+        date = datesReg('Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
+        check = "0"
 
-        tarefa = Tarefa(title, dates, check)
+        tarefa = Tarefa(title, date, check)
         tarefas.append(tarefa)
 
         opt = ' '
@@ -90,6 +77,26 @@ def register(arq='list.txt'):
     archive.arqRegister(registers, arq)
 
 
+def datesReg(txt):
+    try:
+        date = str(input(txt)).strip()
+        while True:
+            order = date.strip().split('/')
+            if order[0].isnumeric() and order[1].isnumeric() and len(order[0]) < 3 and len(order[1]) < 3:
+                orderDate = f'{order[0]}-{order[1]}-{datetime.now().year}'
+            else:
+                print(f'Formato {date} é um formato de data inválido, estamos cadastrando com o dia e mês atuais.')
+                orderDate = f'{datetime.now().day}-{datetime.now().month}-{datetime.now().year}'
+            date = orderDate
+            break
+        dates = date
+    except:
+        print('houve um erro ao cadastrar a data, estamos cadastrando com o dia e mês atuais.')
+        dates = f'{datetime.now().day}-{datetime.now().month}-{datetime.now().year}'
+    finally:
+        return dates
+
+
 def read(l):
     from time import sleep
 
@@ -97,6 +104,30 @@ def read(l):
     print('-' * 52)
     for i, v in enumerate(l):
         print(f'{i+1:>3}', end=' | ')
-        print(f'{v.title:<10}| {v.date:^12} | {"A fazer" if v == "0" else "Finalizada"}')
+        print(f'{v.title:<10}| {v.date:^12} | {"A fazer" if v.check == "0" else "Finalizada"}')
         sleep(1)
     print('-' * 52)
+
+
+def updateDate(leitura, arq):
+    try:
+        read(leitura)
+
+        update = int(input(f'Digite o ID do valor que deseja adiar: '))
+        print('Para adiar o prazo basta digitar o dia e o mês atualizados')
+        date = datesReg('Digite o dia e o mês separados por "/" igual o modelo ao lado [00/00]: ')
+
+        dates = leitura[update - 1]
+        before = str(dates.date)
+        now = dates.date = date
+
+        tarefa = Tarefa(dates.title, now, dates.check)
+    except:
+        print('Não foi possível editar a data!')
+    else:
+        registers = archive.arqRead(arq)
+        del registers[update-1]
+        registers.insert(update-1, tarefa)
+
+        archive.arqRegister(registers, arq)
+        print(f'Tarefa adiada de {before} para {now} com sucesso!')

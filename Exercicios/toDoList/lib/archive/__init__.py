@@ -22,7 +22,6 @@ def arqCreate(arq='list.txt'):
 
 
 def arqRead(arq='list.txt'):
-    from time import sleep
     tarefas = []
     try:
         with open(arq, 'rt') as archive:
