@@ -1,3 +1,4 @@
 Correr;10-01-2024;1
 Estudar;09-01-2024;1
 Escrever codigo do programa;12-01-2024;1
+Andar de bike;12-01-2024;0
